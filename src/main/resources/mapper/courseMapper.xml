@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace：指定了唯一的命名空间-->
+<mapper namespace="com.yht.dao.ICourseDao">
+    <select id="findAll" resultType="com.yht.entity.Course">
+        select * from t_course
+    </select>
+    <select id="findCourseById" resultType="com.yht.entity.Course" parameterType="int">
+        select * from t_course where id = #{id}
+    </select>
+
+    <insert id="addCourse" parameterType="com.yht.entity.Course">
+        insert into t_course(courseName,courseHour,courseScore,courseDetail) values(#{courseName},#{courseHour},#{courseScore},#{courseDetail})
+    </insert>
+
+    <delete id="deleteCourseById" parameterType="int">
+        delete from t_course where id = #{id}
+    </delete>
+    <update id="updateCourseById" parameterType="com.yht.entity.Course">
+        update t_course set courseName=#{courseName},courseHour=#{courseHour},courseScore=#{courseScore},courseDetail=#{courseDetail} where id = #{id}
+    </update>
+</mapper>

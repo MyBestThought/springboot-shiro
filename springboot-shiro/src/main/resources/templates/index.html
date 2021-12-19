@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="utf-8" />
+    <title>首页</title>
+    <!-- Bootstrap core CSS -->
+    <script src="webjars/jquery/3.6.0/jquery.min.js"></script>
+<!--    <script src="webjars/jquery/3.6.0/jquery.min.js"></script>-->
+<!--    <script src="/webjars/bootstrap/3.3.5/js/bootstrap.min.js"></script>-->
+    <link th:href="@{/webjars/bootstrap/3.3.5/css/bootstrap.css}" rel="stylesheet">
+    <script th:src="@{/webjars/jquery/3.6.0/jquery.min.js}"></script>
+    <!-- Custom styles for this template -->
+    <style>
+        body {
+            height: 100%;
+            display: -ms-flexbox;
+            display: -webkit-box;
+            display: flex;
+            -ms-flex-align: center;
+            -ms-flex-pack: center;
+            -webkit-box-align: center;
+            align-items: center;
+            -webkit-box-pack: center;
+            justify-content: center;
+            padding-top: 40px;
+            padding-bottom: 40px;
+            background-image: url(img/back.jpg);
+            /*background-color: #f5f5f5;*/
+        }
+
+        .form-signin {
+            width: 100%;
+            max-width: 400px;
+            padding: 15px;
+            margin: 0 auto;
+            border-radius: 5%;
+            background-color: white;
+            /* opacity: 0.8; */
+        }
+        .input-group, .input-group-md{
+            margin:20px 20px;
+        }
+        h2{
+            color: #1C1C1C;
+            font-weight: bold;
+            padding:5px;
+            border-bottom:1px solid #ddd;
+        }
+    </style>
+</head>
+<body class="text-center main-body">
+<div class="container-fluid">
+    <div class="row">
+        <h2 style="margin-bottom: 50px;">管理系统</h2>
+    </div>
+    <div class="row">
+        <form class="form-horizontal form-signin" th:action="@{/user/login}" method="post">
+            <div class="input-group">
+                <span class="input-group-addon" id="sizing-addon1"><i class="glyphicon glyphicon-user" aria-hidden="true"></i></span>
+                <input type="text" class="form-control" placeholder="用户名" aria-describedby="sizing-addon1" name = "username" id="name" onfocus="modifyLabel()">
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon" id="sizing-addon2"><i class="glyphicon glyphicon-lock" aria-hidden="true"></i></span>
+                <input type="password" class="form-control" placeholder="密码" aria-describedby="sizing-addon1" name="password" id="password" onfocus="modifyLabel()">
+            </div>
+            <div class="input-group-md">
+                <!--下拉列表-->
+                <select class="form-control selectSubmit" id="selectValue" name="identify">
+                    <option value="0">管理员</option>
+                    <option value="1">教师</option>
+                    <option value="2">学生</option>
+                </select>
+            </div>
+            <div class="input-group mb-3">
+                <img id="imgVerify" th:src="@{/getVerify}" alt="更换验证码" height="30" width="170"
+                     onclick="getVerify(this);">
+                <input type="tel" class="form-control" placeholder="验证码" maxlength="4" style="float:right;width: 40%;left: 0;margin-top: 14px;"
+                       name="code" id="verify" onfocus="modifyLabel()">
+            </div>
+            <!-- 登录-->
+            <div class="form-group">
+                <div class="col-sm-offset-1">
+                    <button class="btn btn-info col-sm-6 col-sm-offset-3" type="submit" id="loginBtn">登录</button>
+                </div>
+            </div>
+            <div class="input-group">
+                <a  th:href="@{/user/toRegister}" >去注册></a>
+            </div>
+
+        </form>
+    </div>
+
+</div>
+
+
+</body>
+
+<script>
+    $(function() {
+
+    })
+    //获取验证码
+    function getVerify() {
+        console.log("!@3")
+        $("#imgVerify").attr("src", '/getVerify?' + Math.random());//jquery方式
+    }
+    function modifyLabel(){
+        $(".tip-area").css("display", "none");
+    }
+</script>
+</html>

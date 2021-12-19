@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace：指定了唯一的命名空间-->
+<mapper namespace="com.yht.dao.IUserDao">
+    <insert id="addUser" parameterType="com.yht.entity.User" useGeneratedKeys="true" keyColumn="id">
+        insert into t_user values(#{id}, #{username}, #{password}, #{salt}, #{identify})
+        <selectKey resultType="int" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+    <select id="findByUsername" parameterType="String" resultType="com.yht.entity.User">
+        select * from t_user where username = #{username}
+    </select>
+    <resultMap id="userMap" type="com.yht.entity.User">
+        <id column="id" property="id"></id>
+        <result column="username" property="username"></result>
+        <result column="identify" property="identify"></result>
+        <result column="password" property="password"></result>
+        <result column="salt" property="salt"></result>
+        <collection property="roleList" javaType="list" ofType="com.yht.entity.Role">
+            <id column="id" property="id"></id>
+            <result property="roleName" column="roleName"></result>
+        </collection>
+    </resultMap>
+    <select id="findRolesByUsername" parameterType="String" resultMap="userMap">
+        select u.username, r.* from t_user u  left join t_user_role ur on u.id = ur.userId
+                                       left join t_role r on ur.roleId = r.id where u.username = #{username}
+    </select>
+    <select id="findPermissionByRoleId" parameterType="int" resultType="com.yht.entity.Permission">
+        select p.*, r.* from t_role r left join t_role_permission rp on r.id = rp.roleId
+                                      left join t_permission p on p.id = rp.permissionId where r.id = #{id}
+    </select>
+    <select id="findRoleByRoleName" parameterType="String" resultType="com.yht.entity.Role">
+        select * from t_role where roleName = #{roleName}
+    </select>
+
+    <insert id="addUserRole" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="id">
+        insert into t_user_role(userId, roleId) values(#{userId}, #{roleId})
+    </insert>
+</mapper>
